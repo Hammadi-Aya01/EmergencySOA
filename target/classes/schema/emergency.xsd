@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://emergency.com/schema"
+           xmlns:tns="http://emergency.com/schema"
+           elementFormDefault="qualified">
+
+    <!-- Emergency Type Enumeration -->
+    <xs:simpleType name="EmergencyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="FIRE"/>
+            <xs:enumeration value="MEDICAL"/>
+            <xs:enumeration value="ACCIDENT"/>
+            <xs:enumeration value="CRIME"/>
+            <xs:enumeration value="NATURAL_DISASTER"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Severity Enumeration -->
+    <xs:simpleType name="Severity">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LOW"/>
+            <xs:enumeration value="MEDIUM"/>
+            <xs:enumeration value="HIGH"/>
+            <xs:enumeration value="CRITICAL"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Status Enumeration -->
+    <xs:simpleType name="Status">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PENDING"/>
+            <xs:enumeration value="IN_PROGRESS"/>
+            <xs:enumeration value="RESOLVED"/>
+            <xs:enumeration value="CANCELLED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Emergency Complex Type -->
+    <xs:complexType name="Emergency">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="type" type="tns:EmergencyType"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="location" type="xs:string"/>
+            <xs:element name="severity" type="tns:Severity"/>
+            <xs:element name="status" type="tns:Status"/>
+            <xs:element name="reporterName" type="xs:string"/>
+            <xs:element name="reporterPhone" type="xs:string"/>
+            <xs:element name="createdAt" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="updatedAt" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Responder Complex Type -->
+    <xs:complexType name="Responder">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="specialty" type="xs:string"/>
+            <xs:element name="phone" type="xs:string"/>
+            <xs:element name="status" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Root Elements -->
+    <xs:element name="emergency" type="tns:Emergency"/>
+    <xs:element name="responder" type="tns:Responder"/>
+    
+    <!-- Emergency List -->
+    <xs:element name="emergencies">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="emergency" type="tns:Emergency" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
