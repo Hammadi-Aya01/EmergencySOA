@@ -1,5 +1,5 @@
 package com.emergency.model;
 
-public class Status {
-    
+public enum Status {
+    PENDING, IN_PROGRESS, RESOLVED, CANCELLED
 }

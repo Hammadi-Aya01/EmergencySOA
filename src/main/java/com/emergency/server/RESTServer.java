@@ -6,12 +6,16 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.ws.rs.container.ContainerResponseFilter;
+import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.net.URI;
 
 public class RESTServer {
     
-    private static final String BASE_URI = "http://localhost:8081/api/";
+    private static final String BASE_URI = "http://localhost:8082/api/";
     
     public static HttpServer startServer() {
         // Create a resource config that scans for JAX-RS resources
@@ -25,7 +29,7 @@ public class RESTServer {
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("===========================================");
         System.out.println("Emergency REST Service - Starting...");
         System.out.println("===========================================");
@@ -62,7 +66,7 @@ public class RESTServer {
             // Keep server running
             Thread.currentThread().join();
             
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             System.err.println("✗ Error starting REST server: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
@@ -70,11 +74,11 @@ public class RESTServer {
     }
     
     // CORS Filter to allow cross-origin requests
-    @jakarta.ws.rs.ext.Provider
-    public static class CORSFilter implements jakarta.ws.rs.container.ContainerResponseFilter {
+    @Provider
+    public static class CORSFilter implements ContainerResponseFilter {
         @Override
-        public void filter(jakarta.ws.rs.container.ContainerRequestContext requestContext,
-                          jakarta.ws.rs.container.ContainerResponseContext responseContext) {
+        public void filter(ContainerRequestContext requestContext,
+                          ContainerResponseContext responseContext) {
             responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
             responseContext.getHeaders().add("Access-Control-Allow-Headers", 
                 "origin, content-type, accept, authorization");

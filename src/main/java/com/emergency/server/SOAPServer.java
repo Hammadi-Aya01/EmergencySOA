@@ -5,7 +5,7 @@ import jakarta.xml.ws.Endpoint;
 
 public class SOAPServer {
     
-    private static final String SOAP_URL = "http://localhost:8080/emergency-soap";
+    private static final String SOAP_URL = "http://localhost:8081/emergency-soap";
     
     public static void main(String[] args) {
         System.out.println("===========================================");
